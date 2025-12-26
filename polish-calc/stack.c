@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include "calc.h"
+
+#define MAXVAL 100
+
+static int sp = 0;
+static double val[MAXVAL];
+
+void push(double f) {
+    if (sp < MAXVAL)
+        val[sp++] = f;
+    else
+        printf("error: stack full, can't push %g\n", f);
+}
+
+double pop(void) {
+    if (sp > 0)
+        return val[--sp];
+    else {
+        printf("error: stack empty\n");
+        return 0.0;
+    }
+}
+
+double peek(void) {
+    if (sp > 0)
+        return val[sp - 1];
+    else {
+        printf("error: stack empty\n");
+        return 0.0;
+    }
+}
+
+void dup(void) {
+    if (sp > 0)
+        val[sp++] = peek();
+    else 
+        printf("error: stack empty\n");
+}
+
+void swap(void) {
+    double temp;
+    if (sp > 1)
+        temp = val[sp-2], val[sp-2] = val[sp-1], val[sp-1] = temp;
+    else 
+        printf("error: not enough elements\n");
+}
+
+void clear(void) {
+    sp = 0;
+}
